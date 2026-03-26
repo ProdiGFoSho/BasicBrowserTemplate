@@ -38,10 +38,16 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = object: WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+
+                url?.run {
+                    urlEditText.setText(this.toString())
+                }
             }
         }
 
-
-
+        goButton.setOnClickListener {
+            webView.loadUrl(fixURL(urlEditText.text.toString()))
+        }
     }
+    fun fixURL(url: String) = if(url.startsWith("http")) url else {"https://$url"}
 }
